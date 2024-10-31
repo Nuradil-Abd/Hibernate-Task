@@ -84,10 +84,11 @@ public class DepartmentDaoImpl implements DepartmentDao {
 
     @Override
     public Department getDepartmentByMaxEmployees() {
-        String jpql = "SELECT d FROM Department d JOIN d.maxEmployeeNumber e GROUP BY d.id ORDER BY COUNT(e.id) DESC";
-        TypedQuery<Department> query = em.createQuery(jpql, Department.class);
-        query.setMaxResults(1);
-        List<Department> result = query.getResultList();
+        String query = "select d from Department d where size(d.maxEmployeeNumber) = (" +
+                       "select max(size(dep.maxEmployeeNumber)) from Department dep)";
+        TypedQuery<Department> query1 = em.createQuery(query, Department.class);
+        query1.setMaxResults(1);
+        List<Department> result = query1.getResultList();
         return result.isEmpty() ? null : result.get(0);
     }
 }
