@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
+@ToString(exclude = "department")
 
 public class Employee {
     @Id
